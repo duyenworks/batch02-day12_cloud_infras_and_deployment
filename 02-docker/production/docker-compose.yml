@@ -21,9 +21,9 @@ services:
   # ──────────────────────────────────────
   agent:
     build:
-      context: ../..           # project root — Dockerfile COPY paths require this
-      dockerfile: 02-docker/production/Dockerfile
-      target: runtime          # chỉ build stage "runtime", không build "builder"
+      context: .               # production/ — Dockerfile dùng paths tương đối trong folder này
+      dockerfile: Dockerfile
+      target: runtime
     environment:
       - ENVIRONMENT=staging
       - PORT=8000
