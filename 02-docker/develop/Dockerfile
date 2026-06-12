@@ -1,6 +1,10 @@
 # ============================================================
 # BASIC Dockerfile — Single-stage, dễ đọc, dễ hiểu
 # Dùng làm điểm khởi đầu trước khi học multi-stage
+#
+# ⚠️  PHẢI build từ PROJECT ROOT (không phải thư mục develop/):
+#     cd ../../..   # về batch02-day12_cloud_infras_and_deployment
+#     docker build -f 02-docker/develop/Dockerfile -t my-agent:develop .
 # ============================================================
 
 # Bước 1: Chọn base image

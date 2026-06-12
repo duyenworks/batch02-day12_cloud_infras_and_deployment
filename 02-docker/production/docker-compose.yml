@@ -21,8 +21,8 @@ services:
   # ──────────────────────────────────────
   agent:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../..           # project root — Dockerfile COPY paths require this
+      dockerfile: 02-docker/production/Dockerfile
       target: runtime          # chỉ build stage "runtime", không build "builder"
     environment:
       - ENVIRONMENT=staging
@@ -36,8 +36,7 @@ services:
     depends_on:
       redis:
         condition: service_healthy
-      qdrant:
-        condition: service_healthy
+      # qdrant optional for this lab — agent does not call Qdrant yet
     healthcheck:
       test: ["CMD", "python", "-c",
              "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
