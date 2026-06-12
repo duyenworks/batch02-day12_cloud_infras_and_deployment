@@ -1,0 +1,13 @@
+# Railway config — deploy từ thư mục 02-docker/production
+# Dashboard: Settings → Root Directory = 02-docker/production
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT --workers 2"
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
