@@ -59,7 +59,24 @@ jobs:
       - name: Install Railway CLI
         run: npm install -g @railway/cli
 
+      - name: Validate Railway secrets
+        run: |
+          if [ -z "${{ secrets.RAILWAY_TOKEN }}" ]; then
+            echo "::error::Thiếu GitHub secret RAILWAY_TOKEN. Tạo tại railway.com/account/tokens"
+            exit 1
+          fi
+          if [ -z "${{ secrets.RAILWAY_SERVICE_ID }}" ]; then
+            echo "::error::Thiếu GitHub secret RAILWAY_SERVICE_ID."
+            echo "::error::Lấy ID: Railway Dashboard → Service → Settings → Service ID"
+            echo "::error::Hoặc chạy local: cd 02-docker/production && railway status"
+            exit 1
+          fi
+
       - name: Deploy to Railway
-        run: railway up --detach --service ${{ secrets.RAILWAY_SERVICE_ID }}
+        run: railway up --detach --service "${{ secrets.RAILWAY_SERVICE_ID }}"
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Debug Railway config
+        run: |
+          echo "TOKEN_SET=$([ -n "${{ secrets.RAILWAY_TOKEN }}" ] && echo yes || echo no)"
+          echo "SERVICE_SET=$([ -n "${{ secrets.RAILWAY_SERVICE_ID }}" ] && echo yes || echo no)"
