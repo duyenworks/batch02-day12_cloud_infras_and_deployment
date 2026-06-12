@@ -6,7 +6,9 @@ builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
 
 [deploy]
-startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT --workers 2"
+# Dùng python main.py — đọc PORT từ env (Railway inject).
+# Không dùng "uvicorn ... --port $PORT" vì Railway không expand $PORT qua shell.
+startCommand = "python main.py"
 healthcheckPath = "/health"
 healthcheckTimeout = 30
 restartPolicyType = "ON_FAILURE"
